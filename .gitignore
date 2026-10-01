@@ -1,0 +1,29 @@
+# Virtual environment
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# TensorFlow/Keras generated files
+*.keras
+
+# Large model files - uncomment if your model is >100 MB
+# *.h5
+
+# Training/cache files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Training dataset
+dataset/

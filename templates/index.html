@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ECG Heart Disease Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>ECG Heart Disease Prediction</h1>
+
+        <p class="subtitle">
+            Upload an ECG image to analyze the cardiac pattern.
+        </p>
+
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+
+            <div class="upload-box">
+
+                <label for="ecg_image">
+                    Select ECG Image
+                </label>
+
+                <input
+                    type="file"
+                    id="ecg_image"
+                    name="ecg_image"
+                    accept="image/*"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Analyze ECG
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

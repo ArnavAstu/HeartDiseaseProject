@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ECG Prediction Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>ECG Analysis Result</h1>
+
+        <p class="subtitle">
+            Machine learning prediction based on the uploaded ECG image.
+        </p>
+
+        <div class="image-container">
+
+            <img
+                src="{{ image_path }}"
+                class="ecg-image"
+                alt="Uploaded ECG Image"
+            >
+
+        </div>
+
+        <div class="result-card">
+
+            <h2>Prediction</h2>
+
+            <div class="result">
+                {{ result }}
+            </div>
+
+            <p class="confidence">
+                Confidence:
+                <strong>{{ confidence }}%</strong>
+            </p>
+
+        </div>
+
+        <a href="/" class="back-link">
+            <button type="button">
+                Analyze Another ECG
+            </button>
+        </a>
+
+        <p class="disclaimer">
+            This system is intended for educational purposes only and
+            should not be used as a medical diagnosis.
+        </p>
+
+    </div>
+
+</body>
+
+</html>

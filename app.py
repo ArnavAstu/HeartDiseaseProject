@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from tensorflow.keras.models import load_model
 from PIL import Image
 import numpy as np
@@ -17,6 +17,11 @@ model = load_model(MODEL_PATH)
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 
 @app.route("/predict", methods=["POST"])
@@ -41,23 +46,43 @@ def predict():
     image_array = np.expand_dims(image_array, axis=0)
 
     # Model prediction
-    probability = float(model.predict(image_array, verbose=0)[0][0])
+    probability = float(
+        model.predict(image_array, verbose=0)[0][0]
+    )
 
-    # IMPORTANT:
+    # Model output:
     # 0 = ABNORMAL
     # 1 = NORMAL
+
+    normal_probability = probability * 100
+    abnormal_probability = (1 - probability) * 100
+
     if probability >= 0.5:
         result = "NORMAL"
-        confidence = probability * 100
+        confidence = normal_probability
     else:
         result = "ABNORMAL"
-        confidence = (1 - probability) * 100
+        confidence = abnormal_probability
+
+    if result == "NORMAL":
+        interpretation = (
+            "The AI model classified the uploaded ECG image "
+            "as NORMAL based on the learned ECG image patterns."
+        )
+    else:
+        interpretation = (
+            "The AI model classified the uploaded ECG image "
+            "as ABNORMAL based on the learned ECG image patterns."
+        )
 
     return render_template(
         "result.html",
         result=result,
         confidence=round(confidence, 2),
-        image_path="/" + filepath.replace("\\", "/")
+        normal_probability=round(normal_probability, 2),
+        abnormal_probability=round(abnormal_probability, 2),
+        interpretation=interpretation,
+        image_path="/uploads/" + file.filename
     )
 
 

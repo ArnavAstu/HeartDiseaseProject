@@ -2,61 +2,675 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ECG Prediction Result</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>CardioAI | ECG Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='styles.css') }}">
+
+    <!-- Chart.js -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 
 <body>
 
-    <div class="container">
+<div class="page">
 
-        <h1>ECG Analysis Result</h1>
+    <!-- NAVBAR -->
 
-        <p class="subtitle">
-            Machine learning prediction based on the uploaded ECG image.
-        </p>
+    <nav class="navbar">
 
-        <div class="image-container">
+        <div class="brand">
 
-            <img
-                src="{{ image_path }}"
-                class="ecg-image"
-                alt="Uploaded ECG Image"
-            >
+            <div class="brand-icon">
+                ♥
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    CardioAI
+                </div>
+
+                <div class="brand-subtitle">
+                    ECG Intelligence System
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="result-card">
 
-            <h2>Prediction</h2>
+        <div class="status">
 
-            <div class="result">
-                {{ result }}
+            <span class="status-dot"></span>
+
+            ANALYSIS COMPLETE
+
+        </div>
+
+    </nav>
+
+
+    <main class="results-page">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="results-header">
+
+            <div>
+
+                <div class="badge">
+                    AI ANALYSIS REPORT
+                </div>
+
+                <h1>
+                    ECG Analysis
+                    <span>Results</span>
+                </h1>
+
+                <p>
+                    Model-generated classification based on
+                    the uploaded ECG image.
+                </p>
+
             </div>
 
-            <p class="confidence">
-                Confidence:
-                <strong>{{ confidence }}%</strong>
+        </div>
+
+
+        <!-- TOP GRID -->
+
+        <div class="result-grid">
+
+
+            <!-- ECG IMAGE -->
+
+            <div class="panel image-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            INPUT ECG
+                        </span>
+
+                        <h2>
+                            Uploaded Image
+                        </h2>
+
+                    </div>
+
+                    <div class="panel-icon">
+                        ECG
+                    </div>
+
+                </div>
+
+
+                <div class="ecg-image-wrapper">
+
+                    <img
+                        src="{{ image_path }}"
+                        class="ecg-image"
+                        alt="Uploaded ECG"
+                    >
+
+                </div>
+
+
+                <div class="image-caption">
+
+                    ECG image analyzed by the
+                    classification model.
+
+                </div>
+
+            </div>
+
+
+            <!-- PREDICTION -->
+
+            <div class="panel prediction-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            MODEL PREDICTION
+                        </span>
+
+                        <h2>
+                            Classification
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="prediction-status
+                    {% if result == 'NORMAL' %}
+                        normal
+                    {% else %}
+                        abnormal
+                    {% endif %}">
+
+                    <div class="prediction-symbol">
+
+                        {% if result == "NORMAL" %}
+                            ✓
+                        {% else %}
+                            !
+                        {% endif %}
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="prediction-label">
+                            Predicted Condition
+                        </div>
+
+                        <div class="prediction-result">
+                            {{ result }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="confidence-section">
+
+                    <div class="confidence-header">
+
+                        <span>
+                            Model Confidence
+                        </span>
+
+                        <strong>
+                            {{ confidence }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-fill
+                            {% if result == 'NORMAL' %}
+                                normal-fill
+                            {% else %}
+                                abnormal-fill
+                            {% endif %}"
+                            style="width: {{ confidence }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROBABILITY COMPARISON -->
+
+        <div class="panel comparison-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="panel-label">
+                        PROBABILITY ANALYSIS
+                    </span>
+
+                    <h2>
+                        Normal vs Abnormal Comparison
+                    </h2>
+
+                    <p class="panel-description">
+
+                        The model's output probability for
+                        each classification.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="probability-grid">
+
+
+                <!-- NORMAL -->
+
+                <div class="probability-card normal-card">
+
+                    <div class="probability-title">
+
+                        <span class="probability-dot normal-dot">
+                        </span>
+
+                        Normal
+
+                    </div>
+
+
+                    <div class="probability-number">
+
+                        {{ normal_probability }}%
+
+                    </div>
+
+
+                    <div class="probability-bar">
+
+                        <div
+                            class="normal-bar"
+                            style="width: {{ normal_probability }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ABNORMAL -->
+
+                <div class="probability-card abnormal-card">
+
+                    <div class="probability-title">
+
+                        <span class="probability-dot abnormal-dot">
+                        </span>
+
+                        Abnormal
+
+                    </div>
+
+
+                    <div class="probability-number">
+
+                        {{ abnormal_probability }}%
+
+                    </div>
+
+
+                    <div class="probability-bar">
+
+                        <div
+                            class="abnormal-bar"
+                            style="width: {{ abnormal_probability }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHART SECTION -->
+
+        <div class="chart-grid">
+
+
+            <!-- DOUGHNUT -->
+
+            <div class="panel chart-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            DISTRIBUTION
+                        </span>
+
+                        <h2>
+                            Confidence Distribution
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chart-container">
+
+                    <canvas id="confidenceChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- INTERPRETATION -->
+
+            <div class="panel interpretation-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            AI INTERPRETATION
+                        </span>
+
+                        <h2>
+                            Analysis Summary
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="interpretation-box">
+
+                    <div class="interpretation-icon">
+                        AI
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Model Assessment
+                        </h3>
+
+                        <p>
+                            {{ interpretation }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="metric-list">
+
+                    <div class="metric">
+
+                        <span>
+                            Normal Probability
+                        </span>
+
+                        <strong>
+                            {{ normal_probability }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Abnormal Probability
+                        </span>
+
+                        <strong>
+                            {{ abnormal_probability }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Final Classification
+                        </span>
+
+                        <strong>
+                            {{ result }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMPARISON DIAGRAM -->
+
+        <div class="panel differentiation-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span class="panel-label">
+                        CLASSIFICATION DIFFERENTIATION
+                    </span>
+
+                    <h2>
+                        How the Model Classified the ECG
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="comparison-diagram">
+
+
+                <div class="diagram-side normal-side">
+
+                    <div class="diagram-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        NORMAL
+                    </h3>
+
+                    <div class="diagram-score">
+                        {{ normal_probability }}%
+                    </div>
+
+                    <p>
+                        Probability assigned to the
+                        normal ECG class.
+                    </p>
+
+                </div>
+
+
+                <div class="diagram-center">
+
+                    <div class="connector-line"></div>
+
+                    <div class="model-circle">
+                        AI
+                    </div>
+
+                    <div class="connector-line"></div>
+
+                </div>
+
+
+                <div class="diagram-side abnormal-side">
+
+                    <div class="diagram-icon">
+                        !
+                    </div>
+
+                    <h3>
+                        ABNORMAL
+                    </h3>
+
+                    <div class="diagram-score">
+                        {{ abnormal_probability }}%
+                    </div>
+
+                    <p>
+                        Probability assigned to the
+                        abnormal ECG class.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTION -->
+
+        <div class="action-section">
+
+            <a href="/" class="analyze-again">
+
+                <span>
+                    Analyze Another ECG
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- DISCLAIMER -->
+
+        <div class="disclaimer">
+
+            <strong>
+                ⚠ Educational Use Only
+            </strong>
+
+            <p>
+
+                This application is a machine-learning
+                demonstration for educational purposes.
+                The prediction and confidence score should
+                not be considered a medical diagnosis or
+                a substitute for professional medical advice.
+
             </p>
 
         </div>
 
-        <a href="/" class="back-link">
-            <button type="button">
-                Analyze Another ECG
-            </button>
-        </a>
 
-        <p class="disclaimer">
-            This system is intended for educational purposes only and
-            should not be used as a medical diagnosis.
+    </main>
+
+
+    <footer>
+
+        <p>
+            CardioAI • ECG Classification System
         </p>
 
-    </div>
+    </footer>
+
+</div>
+
+
+<script>
+
+const normalProbability =
+    {{ normal_probability }};
+
+const abnormalProbability =
+    {{ abnormal_probability }};
+
+
+const ctx =
+    document.getElementById(
+        "confidenceChart"
+    );
+
+
+new Chart(ctx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Normal",
+            "Abnormal"
+        ],
+
+        datasets: [{
+
+            data: [
+                normalProbability,
+                abnormalProbability
+            ],
+
+            backgroundColor: [
+                "#22c55e",
+                "#ef4444"
+            ],
+
+            borderWidth: 0,
+
+            hoverOffset: 8
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: "70%",
+
+        plugins: {
+
+            legend: {
+
+                position: "bottom",
+
+                labels: {
+
+                    padding: 20,
+
+                    usePointStyle: true
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
 
 </body>
 

@@ -2,49 +2,226 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ECG Heart Disease Prediction</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>CardioAI | ECG Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='styles.css') }}">
+
 </head>
+
 
 <body>
 
-    <div class="container">
+<div class="page">
 
-        <h1>ECG Heart Disease Prediction</h1>
+    <!-- NAVBAR -->
 
-        <p class="subtitle">
-            Upload an ECG image to analyze the cardiac pattern.
-        </p>
+    <nav class="navbar">
 
-        <form action="/predict" method="POST" enctype="multipart/form-data">
+        <div class="brand">
 
-            <div class="upload-box">
+            <div class="brand-icon">
+                ♥
+            </div>
 
-                <label for="ecg_image">
-                    Select ECG Image
-                </label>
+            <div>
+                <div class="brand-name">CardioAI</div>
+                <div class="brand-subtitle">
+                    ECG Intelligence System
+                </div>
+            </div>
 
-                <input
-                    type="file"
-                    id="ecg_image"
-                    name="ecg_image"
-                    accept="image/*"
-                    required
-                >
+        </div>
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            AI SYSTEM ONLINE
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <main class="hero">
+
+        <div class="hero-text">
+
+            <div class="badge">
+                AI-POWERED ECG ANALYSIS
+            </div>
+
+            <h1>
+                Intelligent ECG
+                <span>Pattern Analysis</span>
+            </h1>
+
+            <p class="hero-description">
+
+                Upload an ECG image and let our deep learning
+                model analyze the cardiac pattern and classify
+                it as normal or abnormal.
+
+            </p>
+
+        </div>
+
+
+        <!-- ECG VISUAL -->
+
+        <div class="ecg-visual">
+
+            <div class="ecg-line"></div>
+
+        </div>
+
+
+        <!-- UPLOAD CARD -->
+
+        <div class="upload-card">
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+            <h2>
+                Upload ECG Image
+            </h2>
+
+            <p>
+                Supported formats: JPG, JPEG, PNG
+            </p>
+
+
+            <form action="/predict"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <div class="file-box">
+
+                    <input
+                        type="file"
+                        id="ecg_image"
+                        name="ecg_image"
+                        accept="image/*"
+                        required
+                    >
+
+                    <label for="ecg_image">
+
+                        <span>
+                            Choose ECG Image
+                        </span>
+
+                        <small>
+                            Browse files
+                        </small>
+
+                    </label>
+
+                </div>
+
+
+                <button type="submit"
+                        class="analyze-button">
+
+                    <span>Analyze ECG</span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- FEATURES -->
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ◉
+                </div>
+
+                <h3>
+                    Deep Learning
+                </h3>
+
+                <p>
+                    ECG image classification using
+                    a trained neural network.
+                </p>
 
             </div>
 
-            <button type="submit">
-                Analyze ECG
-            </button>
 
-        </form>
+            <div class="feature-card">
 
-    </div>
+                <div class="feature-icon">
+                    %
+                </div>
+
+                <h3>
+                    Confidence Analysis
+                </h3>
+
+                <p>
+                    View normal and abnormal
+                    probability scores.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ↗
+                </div>
+
+                <h3>
+                    Visual Results
+                </h3>
+
+                <p>
+                    Interactive charts make
+                    predictions easy to understand.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            CardioAI • Educational ECG Classification System
+        </p>
+
+        <p>
+            Not intended for medical diagnosis.
+        </p>
+
+    </footer>
+
+</div>
 
 </body>
 
